@@ -8,10 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
-
     Page<Comment> findAll(Pageable pageable);
-
-//        List<Comment> ();
-
-//    long addComment(Comment comment);
 }

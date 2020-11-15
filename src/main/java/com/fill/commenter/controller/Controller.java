@@ -8,6 +8,7 @@ import com.fill.commenter.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 
 @RestController
@@ -28,30 +28,21 @@ public class Controller {
     private NoticeService noticeService;
 
     @PostMapping("/add")
-    public String addComments(@RequestParam String commentBody) {
-        return commentService.addComment(commentBody).toString();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Comment addComments(@RequestParam String commentBody) {
+        return commentService.addComment(commentBody);
     }
 
     @GetMapping("/comments")
     @Produces(MediaType.APPLICATION_JSON)
-    public Page<Comment> getListComments(@PageableDefault Pageable pageable) {
+    public Page<Comment> getPageOfComments(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.getAllComment(pageable);
     }
 
     @GetMapping("/notices")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllNotices() {
-        return noticeService.getAllNotices().toString();
-
-
+    public Page<Notice> getPageOfNotices(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return noticeService.getAllNotices(pageable);
     }
 
-    @GetMapping("/comments2")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Notice> getListComments() {
-
-        return noticeService.getAllNotices();
-
-
-    }
 }

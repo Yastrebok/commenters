@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CommentService {
 
@@ -22,16 +24,16 @@ public class CommentService {
     public Comment addComment(String commentBody) {
         Comment comment = new Comment();
         comment.setComment(commentBody);
-        Comment savedComment = commentRepository.save(comment);
-        if (!savedComment.equals(null)){
-            try {
-                BusinessLogic.doSomeWorkOnCommentCreation();
-                noticeService.add(savedComment.getId());
-            } catch (Exception e) {
-                commentRepository.delete(savedComment);
-            }
+        Optional<Comment> savedComment = Optional.of(commentRepository.save(comment));
+        try {
+            BusinessLogic.doSomeWorkOnCommentCreation();
+            noticeService.add(savedComment.get().getId());
+            return savedComment.get();
+        } catch (Exception e) {
+            commentRepository.delete(savedComment.get());
+            comment.setComment("Some error, comment must be deleted");
+            return comment;
         }
-        return savedComment;
     }
 
 

@@ -1,8 +1,9 @@
 package com.fill.commenter.controller;
 
 
-import com.fill.commenter.entiry.Comment;
-import com.fill.commenter.entiry.Notice;
+import com.fill.commenter.entity.Comment;
+import com.fill.commenter.entity.Notice;
+import com.fill.commenter.mq.MyProducer;
 import com.fill.commenter.service.CommentService;
 import com.fill.commenter.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,17 @@ import javax.ws.rs.core.MediaType;
 public class Controller {
 
     @Autowired
+    private MyProducer producer;
+    @Autowired
     private CommentService commentService;
     @Autowired
     private NoticeService noticeService;
 
     @PostMapping("/add")
     @Produces(MediaType.APPLICATION_JSON)
-    public Comment addComments(@RequestParam String commentBody) {
-        return commentService.addComment(commentBody);
+    public String addComments(@RequestParam String commentBody) {
+        producer.produce(commentBody);
+        return "Comment was sent - " + commentBody;
     }
 
     @GetMapping("/comments")

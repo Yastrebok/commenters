@@ -1,4 +1,4 @@
-package com.fill.commenter.entiry;
+package com.fill.commenter.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,19 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity()
-@Table(name = "comments")
-public class Comment {
+@Entity
+@Table(name = "notices")
+public class Notice {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private String comment;
+    private long comment_id;
     private LocalDateTime time;
-
+    private boolean delivered;
 }

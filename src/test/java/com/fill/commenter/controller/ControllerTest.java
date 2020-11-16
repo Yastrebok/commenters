@@ -1,7 +1,10 @@
 package com.fill.commenter.controller;
 
+import com.fill.commenter.mq.Consumer;
+import com.fill.commenter.mq.MyProducer;
 import com.fill.commenter.repository.CommentRepository;
 import com.fill.commenter.repository.NoticeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@Slf4j
 public class ControllerTest {
-    private static int totalComments = 20;
+    private static int totalComments = 1000;
 
     @Autowired
     private MockMvc mockMvc;
@@ -29,17 +33,16 @@ public class ControllerTest {
 
     @Test
     public void addComments() throws Exception {
+
         String commentBody = "";
 
         for (int i = 1; i <= totalComments; i++) {
             commentBody = commentBody + i;
-
-            this.mockMvc.perform(post("/add").param("commentBody", commentBody))
-//                    .andDo(print())
+            this.mockMvc.perform(post("/add")
+                    .param("commentBody", commentBody))
                     .andExpect(status().isOk());
-
         }
-
+        Thread.sleep(5000 * totalComments);
 
         getStatistic();
         commentRepository.deleteAll();
@@ -49,13 +52,9 @@ public class ControllerTest {
 
     public void getStatistic() {
         int countSavedComments = commentRepository.findAll().size();
-        System.out.println("Saved Comments = " + countSavedComments);
-
         int countSavedNotices = noticeRepository.findAllByDelivered(true).size();
-        System.out.println("Saved Notices = " + countSavedNotices);
 
-        System.out.println("Saved Comments    = " + (countSavedComments * 100 / totalComments) + "%");
-        System.out.println("Delivered Notices = " + (countSavedNotices * 100 / totalComments) + "%");
-
+        log.info("Saved Comments    = " + (countSavedComments * 100 / totalComments) + "%");
+        log.info("Delivered Notices = " + (countSavedNotices * 100 / totalComments) + "%");
     }
 }

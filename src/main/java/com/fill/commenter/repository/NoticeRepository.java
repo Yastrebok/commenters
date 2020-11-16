@@ -1,6 +1,6 @@
 package com.fill.commenter.repository;
 
-import com.fill.commenter.entiry.Notice;
+import com.fill.commenter.entity.Notice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

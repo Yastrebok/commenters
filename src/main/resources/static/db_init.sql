@@ -1,16 +1,25 @@
-CREATE TABLE public.comments
+create table comments
 (
-  id bigserial PRIMARY KEY NOT NULL,
-  commnet VARCHAR(255),
-  time timestamp NOT NULL
-);
-CREATE UNIQUE INDEX comments_id_uindex ON public.comments (id);
+  id      bigint auto_increment
+    primary key,
+  comment varchar(255)                        null,
+  time    timestamp default CURRENT_TIMESTAMP not null
+  on update CURRENT_TIMESTAMP,
+  constraint comments_id_uindex
+  unique (id)
+)
+  engine = InnoDB;
 
-CREATE TABLE public.notices
+
+create table notices
 (
-  id bigserial PRIMARY KEY NOT NULL,
-  comment_id bigint NOT NULL,
-  time timestamp NOT NULL,
-  delivered boolean NOT NULL
-);
-CREATE UNIQUE INDEX notices_id_uindex ON public.notices (id);
+  id         bigint auto_increment
+    primary key,
+  comment_id bigint                              not null,
+  time       timestamp default CURRENT_TIMESTAMP not null
+  on update CURRENT_TIMESTAMP,
+  delivered  tinyint(1)                          null,
+  constraint notices_id_uindex
+  unique (id)
+)
+  engine = InnoDB;

@@ -1,6 +1,6 @@
 package com.fill.commenter.service;
 
-import com.fill.commenter.entiry.Comment;
+import com.fill.commenter.entity.Comment;
 import com.fill.commenter.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ public class CommentService {
 
     public Comment addComment(String commentBody) {
         Comment comment = new Comment();
-        comment.setComment(commentBody);
+        comment.setComment(commentBody.substring(0, commentBody.length() < 254 ? commentBody.length() : 254));
         Optional<Comment> savedComment = Optional.of(commentRepository.save(comment));
         try {
             BusinessLogic.doSomeWorkOnCommentCreation();

@@ -1,6 +1,6 @@
 package com.fill.commenter.service;
 
-import com.fill.commenter.entiry.Notice;
+import com.fill.commenter.entity.Notice;
 import com.fill.commenter.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

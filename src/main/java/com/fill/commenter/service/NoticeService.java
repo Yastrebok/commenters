@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,7 @@ public class NoticeService {
     public Notice add(Long commentId) {
         Notice newNotice = new Notice();
         newNotice.setComment_id(commentId);
+        newNotice.setTime(LocalDateTime.now());
         Optional<Notice> savedNotice;
         try {
             BusinessLogic.doSomeWorkOnNotification();

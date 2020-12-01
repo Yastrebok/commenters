@@ -30,6 +30,12 @@ public class Controller {
     @Autowired
     private NoticeService noticeService;
 
+    @GetMapping("/hello")
+    public String index() {
+        return "Maybe its work";
+    }
+
+
     @PostMapping("/add")
     @Produces(MediaType.APPLICATION_JSON)
     public String addComments(@RequestParam String commentBody) {

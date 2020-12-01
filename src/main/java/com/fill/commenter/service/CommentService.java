@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,8 @@ public class CommentService {
 
     public Comment addComment(String commentBody) {
         Comment comment = new Comment();
-        comment.setComment(commentBody.substring(0, commentBody.length() < 254 ? commentBody.length() : 254));
+        comment.setComment(commentBody.substring(0, commentBody.length() < 250 ? commentBody.length() : 250));
+        comment.setTime(LocalDateTime.now());
         Optional<Comment> savedComment = Optional.of(commentRepository.save(comment));
         try {
             BusinessLogic.doSomeWorkOnCommentCreation();

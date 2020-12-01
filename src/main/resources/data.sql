@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS notice;
+
+CREATE TABLE comment (
+  id BIGINT AUTO_INCREMENT  PRIMARY KEY,
+  comment VARCHAR(250) NULL,
+  time TIMESTAMP default CURRENT_TIMESTAMP  NULL
+);
+
+CREATE TABLE notice (
+  id BIGINT AUTO_INCREMENT  PRIMARY KEY,
+  comment_id BIGINT  NOT NULL,
+  time TIMESTAMP  default CURRENT_TIMESTAMP  NULL,
+  delivered tinyint(1)
+);
+

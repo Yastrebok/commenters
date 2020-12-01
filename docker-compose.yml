@@ -1,0 +1,35 @@
+version: "3"
+services:
+  tomcat:
+    image: tomcat
+    container_name: tomcat2
+    ports:
+      - 8000:8080
+    environment:
+      - spring_rabbitmq_host=rabbitmq-container
+      - spring_rabbitmq_port=5672
+      - spring_rabbitmq_username=guest
+      - spring_rabbitmq_password=guest
+    depends_on:
+      - rabbitmq-container
+    volumes:
+      - D:\Java_test_tast\commenter\deploy:/usr/local/tomcat/webapps/
+    restart: always
+#    networks:
+#      - resolute
+#      - bridge
+
+  rabbitmq-container:
+    image: rabbitmq
+    hostname: rabbitmq-container
+    container_name: rabbitmq-container
+    ports:
+      - 5672:5672
+      - 15672:15672
+#    networks:
+#      - resolute
+
+#networks:
+#  resolute:
+#    external:
+#      name: resolute

@@ -16,7 +16,7 @@ public class Consumer {
     @RabbitListener(queues = "${rabbitmq.queue}")
 
     public void consume(String msg) {
-        log.info("Consume: " + msg.substring(0, msg.length() < 254 ? msg.length() : 254));
+        log.info("Consume: " + msg.substring(0, msg.length() < 250 ? msg.length() : 250));
         commentService.addComment(msg);
 
     }

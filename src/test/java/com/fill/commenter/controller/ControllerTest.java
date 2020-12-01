@@ -37,12 +37,12 @@ public class ControllerTest {
         String commentBody = "";
 
         for (int i = 1; i <= totalComments; i++) {
-            commentBody = commentBody + i;
+            commentBody = "Test " + i;
             this.mockMvc.perform(post("/add")
                     .param("commentBody", commentBody))
                     .andExpect(status().isOk());
         }
-        Thread.sleep(5000 * totalComments);
+        Thread.sleep(3000 * totalComments);
 
         getStatistic();
         commentRepository.deleteAll();
